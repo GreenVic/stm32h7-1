@@ -20,12 +20,14 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "mymain.h"
+#include "stm32h7xx_hal.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -40,6 +42,25 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
+
+void HAL_GPIO_EXTI_Callback (uint16_t GPIO_Pin)
+{
+	
+	if(HAL_GPIO_ReadPin(GPIOC,GPIO_PIN_13))
+		{
+			  HAL_GPIO_TogglePin(GPIOB ,GPIO_PIN_7);
+			  HAL_Delay (100);
+		}
+	
+}
+
+
+void HAL_TIM_PeriodElapsedCallback (TIM_HandleTypeDef * htim)
+{
+	HAL_GPIO_TogglePin(GPIOB ,GPIO_PIN_7);
+	
+	
+}
 
 /* USER CODE END PM */
 
@@ -90,6 +111,7 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART3_UART_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
